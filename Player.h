@@ -11,10 +11,14 @@ public:
     // Constructor
     // Post: Player is initialized with x_loc and y_loc set to x and y
     Player(int x, int y);
+    
+    // Get functions
     int getX() const;
-    int getY();
+    int getY() const;
+    // Set functions
     void setX(int x);
     void setY(int y);
+
 private:
     int x_loc;
     int y_loc;
