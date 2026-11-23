@@ -1,0 +1,21 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
+#include "maze.h"
+
+struct Square
+{
+    int x; //x-coord
+    int y; //y-coord
+    int f; //g+h
+    int g; //number of moves to square
+    int h; //distance of square to player
+
+    Square(int x=0, int y=0); //constructor
+    bool operator>(const Square& other) const;
+
+};
+
+Square getMove(const Maze maze, const Square& enemy, const Square& player);
+
+#endif
