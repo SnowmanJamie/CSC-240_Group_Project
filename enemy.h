@@ -1,3 +1,15 @@
+/***************************************************************************************
+* The code for the enemy class (primarily in the A* implementation) relies heavily upon
+  the works povided on GitHub by the following source:
+
+*    Title: A-Star-Pathfinding
+*    Author: JDSherbert
+*    Date: 2024
+*    Availability: www.github.com/JDSherbert/A-Star-Pathfinding
+***************************************************************************************/
+
+
+
 #ifndef ENEMY_H
 #define ENEMY_H
 
@@ -10,9 +22,11 @@ struct Square
     int f; //g+h
     int g; //number of moves to square
     int h; //distance of square to player
+    Square* parent;
 
-    Square(int x=0, int y=0); //constructor
+    Square(int x=0, int y=0, Square* parent=nullptr); //constructor
     bool operator>(const Square& other) const;
+    bool Square::operator==(const Square& other) const;
 
 };
 
