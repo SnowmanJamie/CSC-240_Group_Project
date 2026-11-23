@@ -25,8 +25,11 @@ public:
     // Post: Returns true if the position is the exit
     bool isExit(int x, int y) const;
 
+    int getSize() const;
+
 private:
     std::vector<std::string> grid;
+    int size;
 };
 
 #endif

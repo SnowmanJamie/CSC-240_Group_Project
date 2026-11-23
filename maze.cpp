@@ -45,3 +45,9 @@ bool Maze::isExit(int x, int y) const
 
     return grid[y][x] == 'E';
 }
+
+// Return the size
+int Maze::getSize() const
+{
+    return size;
+}
