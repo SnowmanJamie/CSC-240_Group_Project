@@ -3,7 +3,7 @@
 // There's nothing in here, this was written in a text editor, it hasn't even been tested yet.
 
 #include <iostream>
-#include "Player.h"
+#include "square.h"
 #include "enemy.h"
 #include "maze.h"
 
@@ -11,13 +11,15 @@ using namespace std;
 
 int main()
 {
-  Square enemy{1, 1};
-  Square player{5, 5};
+  Enemy enemy(1,1);
+  Square player(5, 5);
   Maze testMaze;
 
-  while(enemy.x != player.x && enemy.y != player.y)
-  Square move = getMove(testMaze, enemy, player);
-  cout << "(" << move.x << "," << move.y << ")" << endl;
+  while(!(enemy == player))
+  {
+    enemy.move(testMaze, player);
+    cout << "(" << enemy.getX() << "," << enemy.getY() << ")" << endl;
+  }
 
   return 0;
 }
