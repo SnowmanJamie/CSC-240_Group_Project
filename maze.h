@@ -29,7 +29,7 @@ public:
 
 private:
     std::vector<std::string> grid;
-    int size;
+    int size=10;
 };
 
 #endif

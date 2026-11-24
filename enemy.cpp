@@ -2,14 +2,13 @@
 #include <queue>
 #include <vector>
 
-Square::Square(int x, int y, Square* parent)
+Square::Square(int x, int y)
 {
     this->x = x;
     this->y = y;
     this->f = 0;
     this->g = 0;
     this->h = 0;
-    this->parent = parent;
 }
 
 bool Square::operator>(const Square& other) const
@@ -21,6 +20,7 @@ bool Square::operator==(const Square& other) const
     return (x == other.x && y == other.y);
 }
 
+bool
 
 Square getMove(const Maze maze, const Square& enemy, const Square& player)
 {
@@ -31,14 +31,12 @@ Square getMove(const Maze maze, const Square& enemy, const Square& player)
     int rows = maze.getSize();
     int cols = maze.getSize();
 
-
     std::priority_queue<Square, std::vector<Square>, std::greater<Square>> unchecked;
     std::vector<std::vector<bool>>   checked(rows, std::vector<bool>(cols, false));
     std::vector<std::vector<int>>    gScore(rows, std::vector<int>(cols, INT_MAX));
-    std::vector<std::vector<Square>> parent(rows, std::vector<Square>(cols));
 
-    gScore[enemy.x][enemy.y] = 0;
-    unchecked.push(enemy);
+    gScore[player.x][player.y] = 0;
+    unchecked.push(player);
 
 
     // A* Algorithm loop
@@ -48,25 +46,16 @@ Square getMove(const Maze maze, const Square& enemy, const Square& player)
         Square current = unchecked.top();
         unchecked.pop();
 
-        // Check if path is complete
-        if (current == player)                          //BREAKPOINT
-        {
-            // Travel up parents until move is returned
-            while (!(current == enemy))
-            {
-                current = *(current.parent);
-            }
-            return current;
-        }
-
         // Mark current square as checked
         checked[current.x][current.y] = true;
 
         // Search adjacent cells
-        for (int i = 4; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             int newX = current.x + directionX[i];
             int newY = current.y + directionY[i];
+
+            if(newX == enemy.x && newY == enemy.y) return current;
 
             // Check grid boundaries and walkability
             if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && maze.isValidMove(newX, newY) == true)   //BREAKPOINT
@@ -84,9 +73,6 @@ Square getMove(const Maze maze, const Square& enemy, const Square& player)
                     neighbor.g = newG;
                     neighbor.h = std::abs(newX - player.x) + std::abs(newY - player.y); // Manhattan distance
                     neighbor.f = neighbor.g + neighbor.h;
-
-                    // Record parent (for path reconstruction)
-                    parent[newX][newY] = current;
 
                     // Add neighbor to open list for further exploration
                     unchecked.push(neighbor);

@@ -22,14 +22,16 @@ struct Square
     int f; //g+h
     int g; //number of moves to square
     int h; //distance of square to player
-    Square* parent;
 
-    Square(int x=0, int y=0, Square* parent=nullptr); //constructor
+    Square(int x=0, int y=0); //constructor
     bool operator>(const Square& other) const;
-    bool Square::operator==(const Square& other) const;
+    bool operator==(const Square& other) const;
 
 };
 
+bool isOverlapped(const Square& other);
+
 Square getMove(const Maze maze, const Square& enemy, const Square& player);
+
 
 #endif
