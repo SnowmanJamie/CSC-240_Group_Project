@@ -1,28 +1,26 @@
 #include "square.h"
 
 Square::Square() : Square(0,0) {} //default
-
-Square::Square(int x, int y) : x(x), y(y) {}
+Square::Square(int x, int y) : x(x), y(y) {} //parameterized
 
 int Square::getX() const
 {
     return x;
 }
+void Square::setX(const int x)
+{
+    this->x = x;
+}
 int Square::getY() const
 {
     return y;
 }
-
-bool Square::operator>(const Square& other) const
+void Square::setY(const int y)
 {
-    return (f > other.f);
+    this->y = y;
 }
+
 bool Square::operator==(const Square& other) const
 {
     return (x == other.x && y == other.y);
-}
-
-bool Square::isOverlapped(const Square& other) const
-{
-    return (this->x== other.x && this->y == other.y);
 }

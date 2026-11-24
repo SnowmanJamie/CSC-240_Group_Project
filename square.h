@@ -15,25 +15,18 @@ public:
 
     // Func: Returns x
     int getX() const;
+    void setX(const int x);
     // Func: Returns y
     int getY() const;
-    
-    // Func: Returns if f value of this is greater than f value of other
-    // Pre:  This and other are initialized with values of f
-    bool operator>(const Square& other) const;
-    // Func: Returns if f value of this is equal to f value of other
-    // Pre:  This and other are initialized with values of f
-    bool operator==(const Square& other) const;
+    void setY(const int y);
+
     // Func: Returns if this and other share the same x and y values
     // Pre:  Both this and other anre initialized
-    bool isOverlapped(const Square& other) const;
+    bool operator==(const Square& other) const;
 
 private:
     int x; //x-coord
     int y; //y-coord
-    int f; //g+h
-    int g; //number of moves to square
-    int h; //distance of square to player
 };
 
 #endif
