@@ -48,20 +48,19 @@ Square Enemy::getMove(const Maze maze, const Square& player)
             int newX = current.getX() + directionX[i];
             int newY = current.getY() + directionY[i];
 
-            if(newX == this->getX() && newY == this->getY())
-            {
-                Square returnValue(current.getX(), current.getY());
-                return returnValue;
-            }
-
             // Check grid boundaries and walkability
-            if ((newX >= 0 && newX < rows) && (newY >= 0 && newY < cols)
-                && maze.isValidMove(newX, newY) == true)
+            if (maze.isValidMove(newX, newY))
             {
+
+                if(newX == this->getX() && newY == this->getY())
+                {
+                    Square returnValue(current.getX(), current.getY());
+                    return returnValue;
+                }
+
                 if (checked[newX][newY]) continue;
 
-                int newG = current.g + 1;               //BREAKPOINT
-
+                int newG = current.g + 1;
                 if (newG < gScore[newX][newY])
                 {
                     gScore[newX][newY] = newG;
@@ -69,7 +68,7 @@ Square Enemy::getMove(const Maze maze, const Square& player)
                     // Compute new neighbor costs
                     Node neighbor(newX, newY);
                     neighbor.g = newG;
-                    neighbor.h = std::abs(newX - player.getX()) + std::abs(newY - player.getY()); // Manhattan distance
+                    neighbor.h = std::abs(newX - this->getX()) + std::abs(newY - this->getY()); // Manhattan distance
                     neighbor.f = neighbor.g + neighbor.h;
 
                     // Add neighbor to open list for further exploration
