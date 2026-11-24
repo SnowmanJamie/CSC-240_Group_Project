@@ -55,7 +55,8 @@ Square Enemy::getMove(const Maze maze, const Square& player)
             }
 
             // Check grid boundaries and walkability
-            if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && maze.isValidMove(newX, newY) == true)   //BREAKPOINT
+            if ((newX >= 0 && newX < rows) && (newY >= 0 && newY < cols)
+                && maze.isValidMove(newX, newY) == true)
             {
                 if (checked[newX][newY]) continue;
 

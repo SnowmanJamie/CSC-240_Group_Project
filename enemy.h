@@ -19,6 +19,7 @@ struct Node : Square
     int f;
     int g;
     int h;
+
     Node(int x, int y, int f, int g, int h) : Square(x, y)
     {
         this->f = f;
@@ -27,6 +28,13 @@ struct Node : Square
     }
     Node(int x, int y) : Node(x, y, 0, 0, 0) {}
     Node() : Node(0, 0) {}
+
+    // Func: Returns if f value of this is greater than f value of other
+    // Pre:  This and other are initialized
+    bool operator>(const Node& other) const
+    {
+        return (this->f > other.f);
+    }
 };
 
 class Enemy : public Square
