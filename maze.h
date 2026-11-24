@@ -29,6 +29,8 @@ public:
 
 private:
     std::vector<std::string> grid;
+    int rows=7;
+    int cols=9;
     int size=10;
 };
 

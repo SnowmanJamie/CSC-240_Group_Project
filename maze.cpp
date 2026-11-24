@@ -34,7 +34,7 @@ bool Maze::isValidMove(int x, int y) const
     if (x < 0 || x >= static_cast<int>(grid[y].size()))
         return false;
 
-    return grid[y][x] != '#';
+    return grid[rows - 1 - y][x] != '#';
 }
 
 // Check if the player reached the exit
