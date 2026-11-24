@@ -34,6 +34,8 @@ bool Maze::isValidMove(int x, int y) const
     if (x < 0 || x >= static_cast<int>(grid[y].size()))
         return false;
 
+    // Subtract y from rows for bottom-left indexing AND
+    // Subtract 1 from rows for 0-indexing
     return grid[rows - 1 - y][x] != '#';
 }
 
@@ -46,7 +48,7 @@ bool Maze::isExit(int x, int y) const
     return grid[y][x] == 'E';
 }
 
-// Return the size
+// Return the size (to-do)
 int Maze::getSize() const
 {
     return size;
