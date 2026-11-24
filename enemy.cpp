@@ -2,27 +2,19 @@
 #include <queue>
 #include <vector>
 
-Square::Square(int x, int y)
+
+Enemy::Enemy() : Enemy(0, 0) {}
+Enemy::Enemy(int x,int y) : Square(x, y) {}
+
+void Enemy::move(const Maze maze, const Square& player)
 {
-    this->x = x;
-    this->y = y;
-    this->f = 0;
-    this->g = 0;
-    this->h = 0;
+    Square newPos;
+    newPos = getMove(maze, player);
+    this->setX(newPos.getX());
+    this->setY(newPos.getY());
 }
 
-bool Square::operator>(const Square& other) const
-{
-    return (f > other.f);
-}
-bool Square::operator==(const Square& other) const
-{
-    return (x == other.x && y == other.y);
-}
-
-bool
-
-Square getMove(const Maze maze, const Square& enemy, const Square& player)
+Square Enemy::getMove(const Maze maze, const Square& player)
 {
     // Transformations for moves up, right, down, left
     const int directionX[] = {-1, 0, 1, 0};
@@ -31,31 +23,36 @@ Square getMove(const Maze maze, const Square& enemy, const Square& player)
     int rows = maze.getSize();
     int cols = maze.getSize();
 
-    std::priority_queue<Square, std::vector<Square>, std::greater<Square>> unchecked;
+    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> unchecked;
     std::vector<std::vector<bool>>   checked(rows, std::vector<bool>(cols, false));
     std::vector<std::vector<int>>    gScore(rows, std::vector<int>(cols, INT_MAX));
 
-    gScore[player.x][player.y] = 0;
-    unchecked.push(player);
+    Node first(player.getX(), player.getY(), 0, 0, 0);
+    gScore[player.getX()][player.getY()] = 0;
+    unchecked.push(first);
 
 
     // A* Algorithm loop
     while (!unchecked.empty())
     {
         // Get square with lowest f-score
-        Square current = unchecked.top();
+        Node current = unchecked.top();
         unchecked.pop();
 
         // Mark current square as checked
-        checked[current.x][current.y] = true;
+        checked[current.getX()][current.getY()] = true;
 
         // Search adjacent cells
         for (int i = 0; i < 4; ++i)
         {
-            int newX = current.x + directionX[i];
-            int newY = current.y + directionY[i];
+            int newX = current.getX() + directionX[i];
+            int newY = current.getY() + directionY[i];
 
-            if(newX == enemy.x && newY == enemy.y) return current;
+            if(newX == this->getX() && newY == this->getY())
+            {
+                Square returnValue(current.getX(), current.getY());
+                return returnValue;
+            }
 
             // Check grid boundaries and walkability
             if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && maze.isValidMove(newX, newY) == true)   //BREAKPOINT
@@ -69,9 +66,9 @@ Square getMove(const Maze maze, const Square& enemy, const Square& player)
                     gScore[newX][newY] = newG;
 
                     // Compute new neighbor costs
-                    Square neighbor(newX, newY);
+                    Node neighbor(newX, newY);
                     neighbor.g = newG;
-                    neighbor.h = std::abs(newX - player.x) + std::abs(newY - player.y); // Manhattan distance
+                    neighbor.h = std::abs(newX - player.getX()) + std::abs(newY - player.getY()); // Manhattan distance
                     neighbor.f = neighbor.g + neighbor.h;
 
                     // Add neighbor to open list for further exploration

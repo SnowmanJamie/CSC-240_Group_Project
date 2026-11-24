@@ -8,30 +8,36 @@
 *    Availability: www.github.com/JDSherbert/A-Star-Pathfinding
 ***************************************************************************************/
 
-
-
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include "square.h"
 #include "maze.h"
 
-struct Square
+struct Node : Square
 {
-    int x; //x-coord
-    int y; //y-coord
-    int f; //g+h
-    int g; //number of moves to square
-    int h; //distance of square to player
-
-    Square(int x=0, int y=0); //constructor
-    bool operator>(const Square& other) const;
-    bool operator==(const Square& other) const;
-
+    int f;
+    int g;
+    int h;
+    Node(int x, int y, int f, int g, int h) : Square(x, y)
+    {
+        this->f = f;
+        this->g = g;
+        this->h = h;
+    }
+    Node(int x, int y) : Node(x, y, 0, 0, 0) {}
+    Node() : Node(0, 0) {}
 };
 
-bool isOverlapped(const Square& other);
+class Enemy : public Square
+{
+public:
+    Enemy();
+    Enemy(int x,int y);
 
-Square getMove(const Maze maze, const Square& enemy, const Square& player);
+    void move(const Maze maze, const Square& player);
+    Square getMove(const Maze maze, const Square& player);
+};
 
 
 #endif
